@@ -9,39 +9,50 @@ dataset = pd.read_csv('credit_scoring.csv',sep=";")
 labels = "Seniority;Home;Time;Age;Marital;Records;Job;Expenses;Income;Assets;Debt;Amount;Price"
 labels = labels.split(";")
 
-# taking all the rows and all the columns except the last column
+# iloc[:,:-1] ":" : tout le champ
 x = dataset.iloc[:,:-1].values
 
-# all the rows and only the last column
 y = dataset.iloc[:,-1].values
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.7)    
 
 # Visualisation
 
 # valeurs x_age de test
 
-plt.hist(x_test[:,3])
-plt.title("x_age de test")
+plt.hist(x[:,3])
+plt.title("x_age")
 plt.show()
+
 
 # avec normalisation 
 
 from sklearn.preprocessing import StandardScaler
 
-sc = StandardScaler()
+norm = StandardScaler()
 
-x_train = sc.fit_transform(x_train)
-
-x_test = sc.fit_transform(x_test)
+x = norm.fit_transform(x)
 
 # from sklearn.preprocessing import MinMaxScaler
 
-# sc = MinMaxScaler()
+# norm = MinMaxScaler()
 
-# x_train = sc.fit_transform(x_train)
+# x = norm.fit_transform(x)
 
-# x_test = sc.fit_transform(x_test)
+from sklearn.decomposition import PCA
+
+
+principal = PCA(n_components=10)
+
+principal.fit(x)
+
+x = principal.transform(x)
+
+# avec le PCA les resultats sont casiment identique
+
+
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.7)    
+
+
 
 
 # https://www.math.univ-toulouse.fr/~besse/Wikistat/pdf/st-tutor3-python-scikit.pdf
@@ -72,14 +83,6 @@ y_pred = neigh.predict(x_test)
 
 print("KNN-"+str(voisin)+ " accuracy :", accuracy_score(y_test,y_pred)) 
 
-
-
-
-
-from sklearn.decomposition import PCA
-
-pca = PCA(n_components=2)
-pca.fit(x)
 
 
 
