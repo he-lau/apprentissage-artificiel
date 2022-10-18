@@ -46,7 +46,7 @@ principal.fit(x)
 
 x = principal.transform(x)
 
-# avec le PCA les resultats sont casiment identique
+# avec le PCA les resultats sont quasiment identique
 
 
 
